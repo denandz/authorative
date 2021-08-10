@@ -1,0 +1,83 @@
+<html>
+    <head>
+               
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">     
+        
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+        
+        <style>
+        
+            body {
+                background: #242a30;
+                color: #e0e0e0;
+            }
+            
+            input, select, textarea{
+                color: #272727;
+            }
+
+            .center {
+                margin: auto;
+                width: 20%;
+                padding: 20px;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="center">
+            <h1>Authorative</h1>
+
+            <form class="pure-form pure-form-stacked" id="login_form" action="/auth/login" method="post" autocomplete="off">
+                <fieldset>
+                    <label for="user">Username</label>
+                    <input type="text" id="user" name="user">
+                    
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password">
+                    
+                    <label for="OTP">OTP</label>
+                    <input type="text" id="otp" name="otp">
+                    
+                    <button type="submit" value="Submit" class="pure-button pure-button-primary">Login</button>
+                </fieldset>
+            </form> 
+        </div>
+
+        <script>
+            
+
+            document.forms['login_form'].addEventListener('submit', (event) => {
+                event.preventDefault();
+                // TODO do something here to show user that form is being submitted
+                fetch(event.target.action, {
+                    method: 'POST',
+                    body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+                }).then((resp) => {
+                
+                    if(!resp.ok){
+                        alert("Login failed")
+                        return
+                    }
+                    
+                    const urlParams = new URLSearchParams(window.location.search);
+                    var r = urlParams.get("r")
+                    if(r !== null && r.startsWith("/") && !r.startsWith("//")){
+                        window.location.replace(r)
+                    } else {
+                        window.location.replace("/")
+                    }
+                    
+                }).catch((error) => {
+                
+                    alert("Unexpected Error")
+                    console.log(error)
+                    
+                });
+            });
+        </script>
+          
+    </body>
+</html>

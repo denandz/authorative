@@ -127,6 +127,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Header().Set("Content-Type", "application/json")
 				w.Write([]byte(`{"status":0, "message":"Internal Server Error}`))
+				return
 			}
 
 			sessionToken := hex.EncodeToString(token)
